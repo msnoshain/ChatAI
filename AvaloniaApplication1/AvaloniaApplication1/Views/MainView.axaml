@@ -1,0 +1,105 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:AvaloniaApplication1.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450"
+             x:Class="AvaloniaApplication1.Views.MainView"
+             Foreground="White"
+             Background="#222230">
+  <Design.DataContext>
+    <!-- This only sets the DataContext for the previewer in an IDE,
+         to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+    <viewModels:MainViewModel />
+  </Design.DataContext>
+
+	<UserControl.Resources>
+		<MenuFlyout x:Key="SCTextBoxContextFlyout" Placement="Bottom">
+			<MenuItem x:Name="SCTextBoxContextFlyoutCutItem" Header="剪切" Command="{Binding $parent[TextBox].Cut}" IsEnabled="{Binding $parent[TextBox].CanCut}" InputGesture="{x:Static TextBox.CutGesture}" />
+			<MenuItem x:Name="SCTextBoxContextFlyoutCopyItem" Header="复制" Command="{Binding $parent[TextBox].Copy}" IsEnabled="{Binding $parent[TextBox].CanCopy}" InputGesture="{x:Static TextBox.CopyGesture}"/>
+			<MenuItem x:Name="SCTextBoxContextFlyoutPasteItem" Header="粘贴" Command="{Binding $parent[TextBox].Paste}" IsEnabled="{Binding $parent[TextBox].CanPaste}" InputGesture="{x:Static TextBox.PasteGesture}"/>
+		</MenuFlyout>
+	</UserControl.Resources>
+
+	<UserControl.Styles>
+		
+		<Style Selector="Button.BottomButtonStyle">
+			<Setter Property="Width" Value="36"/>
+			<Setter Property="Height" Value="36"/>
+			<Setter Property="HorizontalAlignment" Value="Center"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+			<Setter Property="Background" Value="Transparent"/>
+		</Style>
+
+		<Style Selector="TextBox">
+			<Setter Property="ContextFlyout" Value="{StaticResource SCTextBoxContextFlyout}"/>
+		</Style>
+
+		<Style Selector="TextBox.ReadOnlyTextBox">
+			<Setter Property="IsReadOnly" Value="True"/>
+		</Style>
+
+		<Style Selector="TextBox.ReadOnlyTextBox:pointerover /template/ Border#PART_BorderElement">
+			<Setter Property="Background" Value="{DynamicResource TextControlBackground}"/>
+		</Style>
+
+		<Style Selector="TextBox.ReadOnlyTextBox:focus /template/ Border#PART_BorderElement">
+			<Setter Property="Background" Value="{DynamicResource TextControlBackground}"/>
+			<Setter Property="BorderBrush" Value="{DynamicResource TextControlBorderBrushPointerOver}"/>
+		</Style>
+
+		<Style Selector="TextBox.InputTextBox:focus /template/ Border#PART_BorderElement">
+			<Setter Property="Background" Value="#111111"/>
+			<Setter Property="BorderBrush" Value="{DynamicResource TextControlBorderBrushPointerOver}"/>
+		</Style>
+		
+	</UserControl.Styles>
+
+	<Grid Margin="10 10 10 10">
+		
+		<Grid.RowDefinitions>
+			<RowDefinition/>
+			<RowDefinition Height="48"/>
+		</Grid.RowDefinitions>
+		
+		<TextBox AcceptsReturn="True" 
+				 TextWrapping="Wrap"
+				 Classes="ReadOnlyTextBox"/>
+		
+		<Grid Grid.Row="1"
+			  Background="#222230">
+
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="48"/>
+				<ColumnDefinition Width="48"/>
+				<ColumnDefinition/>
+			</Grid.ColumnDefinitions>
+
+			<Button Grid.Column="0"
+					Classes="BottomButtonStyle"
+					ToolTip.Tip="设置">
+
+				<Image Source="avares://ChatAI/Assets/Icons/settings.png"
+					   Width="20"
+					   Height="20"/>
+			
+			</Button>
+
+			<Button Grid.Column="1"
+					Classes="BottomButtonStyle"
+					ToolTip.Tip="发送">
+				
+				<Image Source="avares://ChatAI/Assets/Icons/send.png"
+					   Width="20"
+					   Height="20"/>
+				
+			</Button>
+			
+			<TextBox Grid.Column="2"
+					 FontSize="18"
+					 VerticalAlignment="Center"
+					 Classes="InputTextBox"/>
+			
+		</Grid>
+	</Grid>
+</UserControl>
